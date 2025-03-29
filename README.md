@@ -40,11 +40,10 @@ g++ -o tetris TetrisGame.cpp -std=c++11
 | Space | Drop piece instantly ⚡ |
 | P | Pause game ⏸️ |
 | R | Restart game 🔁 |
-| U | Undo last move ↩️ |
 | X | Exit game ❌ |
 
 ## 📊 Scoring
-- ✅ **1 each peice drop**: **25 points**
+- ✅ **1 each peice drop**: **250 points**
 - ✅ **2 each line cleared**: **100 points**
 
 
