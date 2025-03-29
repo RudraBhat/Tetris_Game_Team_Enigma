@@ -44,7 +44,7 @@ A classic Tetris game written in C++ with a terminal-based interface and an enga
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/yourusername/tetris-game.git
+git clone https://github.com/RudraBhat/tetris-game.git
 cd tetris-game
 ```
 
