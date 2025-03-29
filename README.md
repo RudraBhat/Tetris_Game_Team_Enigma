@@ -75,9 +75,9 @@ g++ Tetris.cpp -o tetris
 ## 🖼️ Game Screenshots
 Here are some images showcasing the gameplay:
 
-![Gameplay Screenshot 1](1.png)
-![Gameplay Screenshot 2](2.png)
-![Gameplay Screenshot 3](3.png)
+![Gameplay Screenshot 1](3.png)
+![Gameplay Screenshot 2](1.png)
+![Gameplay Screenshot 3](2.png)
 
 ## ⚙️ Technical Details
 - Uses 2D array representation for the Tetris grid.
