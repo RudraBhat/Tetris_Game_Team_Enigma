@@ -404,7 +404,8 @@ private:
     int currentRow, currentCol;
     bool gameOver;
     bool paused; // pause toggle
-    int score;
+    int score = 0;
+    int highscore = 0;
     int level;
     int linesClearedTotal;
 
@@ -427,6 +428,117 @@ public:
     {
         delete currentPiece;
         delete nextPiece;
+    }
+    /**************************************************************
+     *Makeups: WelCome and GameOver screens
+     **************************************************************/
+    void showStartingAnimation()
+    {
+#ifdef _WIN32
+        system("cls");
+#else
+        system("clear");
+#endif
+        cout << "\033[44m" << "\033[37m" << "\033[1m";
+
+        vector<string> tetrisArt = {
+            "████████╗███████╗████████╗██████╗ ██╗███████╗",
+            "╚══██╔══╝██╔════╝╚══██╔══╝██╔══██╗██║██╔════╝",
+            "   ██║   █████╗     ██║   ██████╔╝██║███████╗",
+            "   ██║   ██╔══╝     ██║   ██╔══██╗██║╚════██║",
+            "   ██║   ███████╗   ██║   ██║  ██║██║███████║",
+            "   ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝",
+            "    M A D E   B Y   T E A M   E N I G M A    "};
+
+        for (int i = 0; i < tetrisArt.size(); i++)
+        {
+            cout << tetrisArt[i] << endl;
+#ifdef _WIN32
+            Sleep(300);
+#else
+            usleep(300000);
+#endif
+        }
+
+        cout << "\033[0m" << "\n\nStarting game in 3...";
+        cout.flush();
+#ifdef _WIN32
+        Sleep(300);
+#else
+        usleep(300000);
+#endif
+        cout << "2...";
+        cout.flush();
+#ifdef _WIN32
+        Sleep(500);
+#else
+        usleep(300000);
+#endif
+        cout << "1...";
+        cout.flush();
+#ifdef _WIN32
+        Sleep(500);
+#else
+        usleep(300000);
+#endif
+
+        system("cls");
+    }
+
+    void drawPauseScreen()
+    {
+        // Clear screen and draw pause message
+        cout << "\033[2J\033[H";
+        cout << "\033[44m" << "\033[37m" << "\033[1m" << "\n\n\n\n";
+        cout << "         ██████╗  █████╗ ██╗   ██╗███████╗███████╗       \n";
+        cout << "         ██╔══██╗██╔══██╗██║   ██║██╔════╝██╔════╝       \n";
+        cout << "         ██████╔╝███████║██║   ██║███████╗█████╗         \n";
+        cout << "         ██╔═══╝ ██╔══██║██║   ██║╚════██║██╔══╝         \n";
+        cout << "         ██║     ██║  ██║╚██████╔╝███████║███████╗       \n";
+        cout << "         ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝       \n";
+        cout << "\033[0m" << "\n\n";
+        cout << "\033[43m" << "\033[30m" << "           Press P to continue           " << "\033[0m" << "\n";
+        while (paused)
+        {
+            handleInput();
+        }
+
+#ifdef _WIN32
+        Sleep(100);
+#else
+        usleep(1000000);
+#endif
+        cout.flush();
+
+#ifdef _WIN32
+        system("cls");
+#else
+        system("clear");
+#endif
+    }
+
+    void drawGameOverScreen()
+    {
+        highscore = max(score, highscore);
+        clearScreen();
+        cout << "\033[41m" << "\033[37m" << "\033[1m" << "\n\n\n\n";
+        cout << "          ██████╗  █████╗ ███╗   ███╗███████╗     \n";
+        cout << "         ██╔════╝ ██╔══██╗████╗ ████║██╔════╝     \n";
+        cout << "         ██║  ███╗███████║██╔████╔██║█████╗       \n";
+        cout << "         ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝       \n";
+        cout << "         ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗     \n";
+        cout << "          ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝     \n";
+        cout << "          ██████╗ ██╗   ██╗███████╗██████╗        \n";
+        cout << "         ██╔═══██╗██║   ██║██╔════╝██╔══██╗       \n";
+        cout << "         ██║   ██║██║   ██║█████╗  ██████╔╝       \n";
+        cout << "         ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗       \n";
+        cout << "         ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║       \n";
+        cout << "          ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝       \n";
+        cout << "\033[0m" << "\n\n";
+        cout << "\033[42m" << "\033[30m" << "           Your Score: " << score << "           " << "\033[0m" << "\n";
+        cout << "\033[44m" << "\033[37m" << "        High Score: " << highscore << "        " << "\033[0m" << "\n\n";
+        cout << "\033[43m" << "\033[30m" << "     Press R to restart or X to exit     " << "\033[0m" << "\n";
+        cout.flush();
     }
 
     // Factory method: returns a random Tetromino
@@ -463,6 +575,8 @@ public:
 #else
         system("clear");
 #endif
+        showStartingAnimation();
+
         while (!gameOver)
         {
             // 1) Clear and draw interface each frame
@@ -502,9 +616,8 @@ public:
 #else
         system("clear");
 #endif
-        setCursorPos(1, 1);
-        cout << "GAME OVER!" << endl;
-        cout << "Your Score: " << score << endl;
+        // GameOver
+        drawGameOverScreen();
         cout << "Press 'R' to Restart\n(NOTE:Any other keys terminates the game: )" << endl;
 
         char rest;
@@ -539,8 +652,7 @@ private:
         // Show paused status
         if (paused)
         {
-            setCursorPos(leftPanelRow++, leftPanelCol);
-            cout << "Game Status : [ PAUSED! ]\n";
+            drawPauseScreen();
         }
         else
         {
