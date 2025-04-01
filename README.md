@@ -1,6 +1,7 @@
 # 🎮 Tetris Game
 
 A classic Tetris game written in C++ with a terminal-based interface and an engaging scoring system.
+#### We have made two games for fun, kindly try both.
 
 ## 📖 Table of Contents
 - [Features](#features)
@@ -51,22 +52,22 @@ cd tetris-game
 ### 2️⃣ Compile & Run
 #### 🖥️ Windows
 ```sh
-g++ Tetris.cpp -o tetris.exe -static-libstdc++ -static-libgcc
-./tetris.exe
+g++ Tetris_Final_Version.cpp -o Tetris_Final_Version.exe -static-libstdc++ -static-libgcc
+./Tetris_Final_Version.exe
 ```
 #### 🖥️ Linux/Mac
 ```sh
-g++ Tetris.cpp -o tetris
-./tetris
+g++ Tetris_Final_Version.cpp -o Tetris_Final_Version
+./Tetris_Final_Version
 ```
 
 ## 🎯 Game Controls
 | Key    | Action        |
 |--------|--------------|
-| W      | Rotate       |
-| A      | Move Left    |
-| D      | Move Right   |
-| S      | Soft Drop    |
+| UP Arrow     | Rotate       |
+| Left Arrow  | Move Left    |
+| Right Arrow    | Move Right   |
+| Down Arrow   | Soft Drop    |
 | Space  | Hard Drop    |
 | P      | Pause        |
 | R      | Restart      |
@@ -100,6 +101,9 @@ Here are some images showcasing the gameplay:
 5. Open a Pull Request!
 
 ## 👥 Contributors
-- @RudraBhatt (Main Developer)
+- [@AaryanModi](https://github.com/Aaryan-Modi)
+- [@AdityaDave](https://github.com/Aditya-Dave503)
+- [@RudraBhatt](https://github.com/RudraBhat)
+- [@JayLimbasiya](https://github.com/Jay0001-debug)
 
 Enjoy the game! 🚀
