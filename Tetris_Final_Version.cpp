@@ -117,6 +117,8 @@ int _kbhit(void)
 /**************************************************************
  * 1) Utility: Non-blocking key press check
  **************************************************************/
+int score = 0;
+int highscore = 0;
 
 bool kbhit_non_blocking()
 {
@@ -404,8 +406,6 @@ private:
     int currentRow, currentCol;
     bool gameOver;
     bool paused; // pause toggle
-    int score = 0;
-    int highscore = 0;
     int level;
     int linesClearedTotal;
 
@@ -414,7 +414,7 @@ public:
         : currentPiece(nullptr), nextPiece(nullptr),
           currentRow(0), currentCol(0),
           gameOver(false), paused(false),
-          score(0), level(1), linesClearedTotal(0)
+          level(1), linesClearedTotal(0)
     {
         srand((unsigned)time(nullptr));
         currentPiece = randomTetromino();
@@ -503,11 +503,6 @@ public:
             handleInput();
         }
 
-#ifdef _WIN32
-        Sleep(100);
-#else
-        usleep(1000000);
-#endif
         cout.flush();
 
 #ifdef _WIN32
@@ -517,7 +512,7 @@ public:
 #endif
     }
 
-    void drawGameOverScreen()
+    int drawGameOverScreen()
     {
         highscore = max(score, highscore);
         clearScreen();
@@ -539,6 +534,18 @@ public:
         cout << "\033[44m" << "\033[37m" << "        High Score: " << highscore << "        " << "\033[0m" << "\n\n";
         cout << "\033[43m" << "\033[30m" << "     Press R to restart or X to exit     " << "\033[0m" << "\n";
         cout.flush();
+
+        cout << "Press 'R' to Restart\n(NOTE:Any other keys terminates the game: )" << endl;
+
+        char rest;
+        cin >> rest;
+
+        if (rest == 'R' || rest == 'r')
+            return 1;
+
+        // Show cursor again
+        cout << "\033[?25h";
+        return 0;
     }
 
     // Factory method: returns a random Tetromino
@@ -568,6 +575,7 @@ public:
 
     bool run()
     {
+        score = 0;
         // Hide cursor (optional) // ANSI Escape sequence
         cout << "\033[?25l";
 #ifdef _WIN32
@@ -599,13 +607,13 @@ public:
             }
 
             // 5) Control speed
-            int delay = 70 - (level - 1) * 10;
+            int delay = 100 - (level - 1) * 10;
             if (delay < 0)
                 delay = 10;
 #ifdef _WIN32
             Sleep(delay);
 #else
-            usleep(delay * 1000);
+            usleep(delay * 1500);
 #endif
         }
 
@@ -616,19 +624,6 @@ public:
 #else
         system("clear");
 #endif
-        // GameOver
-        drawGameOverScreen();
-        cout << "Press 'R' to Restart\n(NOTE:Any other keys terminates the game: )" << endl;
-
-        char rest;
-        cin >> rest;
-
-        if (rest == 'R' || rest == 'r')
-            return 1;
-
-        // Show cursor again
-        cout << "\033[?25h";
-        return 0;
     }
 
 private:
@@ -882,7 +877,8 @@ int main()
 
 Start:
     Game game;
-    int g = game.run();
+    game.run();
+    int g = game.drawGameOverScreen();
 
     if (g == 1)
         goto Start;
